@@ -2,7 +2,7 @@
   "name": "jalaali-js",
   "version": "0.1.0",
   "description": "Converts Gregorian and Jalaali calendars to each other",
-  "main": "index.js",
+  "main": "jalaali.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jalaali/jalaali-js"
