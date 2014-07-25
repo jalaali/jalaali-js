@@ -1,6 +1,6 @@
 # Jalaali JavaScript
 
-A few javascript functions for converting Gregorian and Jalaali calendar systems to each other.
+A few javascript functions for converting Jalaali (Jalali, Persian, Khayyami, Khorshidi, Shamsi) and Gregorian calendar systems to each other.
 
 ## About
 
