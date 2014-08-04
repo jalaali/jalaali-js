@@ -8,7 +8,58 @@ Jalali calendar is a solar calendar that was used in Persia, variants of which t
 
 Calendar conversion is based on the [algorithm provided by Kazimierz M. Borkowski](http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm) and has a very good performance.
 
+## Install
+
+### Node.js
+
+Use [`npm`](https://npmjs.org) to install:
+
+```sh
+$ npm install --save jalaali
+```
+
+Then import it:
+
+```js
+var jalaali = require('jalaali')
+```
+
+
+### Browser
+
+Use [`component`](https://github.com/component/component) to install:
+
+```sh
+$ component install jalaali/jalaali-js
+```
+
+Then import it:
+
+```js
+var jalaali = require('jalaali')
+```
+
 ## API
+
+### toJalaali(gy, gm, gd)
+
+Converts a Gregorian date to Jalaali.
+
+### toGregorian(jy, jm, jd)
+
+Converts a Jalaali date to Gregorian.
+
+### isValidJalaaliDate(jy, jm, jd)
+
+Checks whether a Jalaali date is valid or not.
+
+### isLeapJalaaliYear(jy)
+
+Is this a leap year or not?
+
+### jalaaliMonthLength(jy, jm)
+
+Number of days in a given month in a Jalaali year.
 
 ### jalCal(jy)
 
