@@ -1,8 +1,8 @@
 {
   "name": "jalaali-js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Converts Gregorian and Jalaali calendars to each other",
-  "main": "jalaali.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jalaali/jalaali-js"
@@ -13,12 +13,16 @@
     "persian",
     "khorshidi",
     "shamsi",
-    "calendar"
+    "calendar",
+    "date"
   ],
   "author": "Behrang Noruzi Niya",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jalaali/jalaali-js/issues"
   },
-  "homepage": "https://github.com/jalaali/jalaali-js"
+  "homepage": "https://github.com/jalaali/jalaali-js",
+  "devDependencies": {
+    "component": "^1.0.0-rc5"
+  }
 }

@@ -1,30 +1,3 @@
-(function (root) {
-
-/*
-  Expose.
-*/
-
-var jalaali = { jalCal: jalCal
-              , j2d: j2d
-              , d2j: d2j
-              , g2d: g2d
-              , d2g: d2g
-              }
-if (typeof exports === 'object') module.exports = jalaali
-else root.jalaali = jalaali
-
-/*
-  Utility helper functions.
-*/
-
-function div(a, b) {
-  return ~~(a / b)
-}
-
-function mod(a, b) {
-  return a - ~~(a / b) * b
-}
-
 /*
   This function determines if the Jalaali (Persian) year is
   leap (366-day long) or is the common year (365 days), and
@@ -40,7 +13,7 @@ function mod(a, b) {
   @see: http://www.fourmilab.ch/documents/calendar/
 */
 
-function jalCal(jy) {
+export function jalCal(jy) {
   // Jalaali years starting the 33-year rule.
   var breaks =  [ -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210
                 , 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
@@ -106,7 +79,7 @@ function jalCal(jy) {
   @return Julian Day number
 */
 
-function j2d(jy, jm, jd) {
+export function j2d(jy, jm, jd) {
   var r = jalCal(jy)
   return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
 }
@@ -121,7 +94,7 @@ function j2d(jy, jm, jd) {
     jd: Jalaali day (1 to 29/31)
 */
 
-function d2j(jdn) {
+export function d2j(jdn) {
   var gy = d2g(jdn).gy // Calculate Gregorian year (gy).
     , jy = gy - 621
     , r = jalCal(jy)
@@ -173,7 +146,7 @@ function d2j(jdn) {
   @return Julian Day number
 */
 
-function g2d(gy, gm, gd) {
+export function g2d(gy, gm, gd) {
   var d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4)
       + div(153 * mod(gm + 9, 12) + 2, 5)
       + gd - 34840408
@@ -193,7 +166,7 @@ function g2d(gy, gm, gd) {
     gd: Calendar day of the month M (1 to 28/29/30/31)
 */
 
-function d2g(jdn) {
+export function d2g(jdn) {
   var j
     , i
     , gd
@@ -211,4 +184,14 @@ function d2g(jdn) {
           }
 }
 
-}(this))
+/*
+  Utility helper functions.
+*/
+
+function div(a, b) {
+  return ~~(a / b)
+}
+
+function mod(a, b) {
+  return a - ~~(a / b) * b
+}
