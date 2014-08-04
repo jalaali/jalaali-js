@@ -1,4 +1,44 @@
 /*
+  Converts a Gregorian date to Jalaali.
+*/
+export function toJalaali(gy, gm, gd) {
+  return d2j(g2d(gy, gm, gd))
+}
+
+/*
+  Converts a Jalaali date to Gregorian.
+*/
+export function toGregorian(jy, jm, jd) {
+  return d2g(j2d(jy, jm, jd))
+}
+
+/*
+  Checks whether a Jalaali date is valid or not.
+*/
+export function isValidJalaaliDate(jy, jm, jd) {
+  return  jy >= -61 && jy <= 3177 &&
+          jm >= 1 && jm <= 12 &&
+          jd >= 1 && jd <= jalaaliMonthLength(jy, jm)
+}
+
+/*
+  Is this a leap year or not?
+*/
+export function isLeapJalaaliYear(jy) {
+  return jalCal(jy).leap === 0
+}
+
+/*
+  Number of days in a given month in a Jalaali year.
+*/
+export function jalaaliMonthLength(jy, jm) {
+  if (jm <= 6) return 31
+  if (jm <= 11) return 30
+  if (isJalaaliLeapYear(jy)) return 30
+  return 29
+}
+
+/*
   This function determines if the Jalaali (Persian) year is
   leap (366-day long) or is the common year (365 days), and
   finds the day in March (Gregorian calendar) of the first
