@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/jalaali/jalaali-js",
   "devDependencies": {
-    "component": "^1.0.0-rc5"
+    "component": "^1.0.0-rc5",
+    "mocha": "^1.21.3",
+    "should": "^4.0.4"
   }
 }
