@@ -15,13 +15,13 @@ Calendar conversion is based on the [algorithm provided by Kazimierz M. Borkowsk
 Use [`npm`](https://npmjs.org) to install:
 
 ```sh
-$ npm install --save jalaali
+$ npm install --save jalaali-js
 ```
 
 Then import it:
 
 ```js
-var jalaali = require('jalaali')
+var jalaali = require('jalaali-js')
 ```
 
 
@@ -36,7 +36,7 @@ $ component install jalaali/jalaali-js
 Then import it:
 
 ```js
-var jalaali = require('jalaali')
+var jalaali = require('jalaali-js')
 ```
 
 ## API
