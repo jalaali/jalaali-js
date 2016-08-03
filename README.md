@@ -49,6 +49,14 @@ Converts a Gregorian date to Jalaali.
 jalaali.toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
 ```
 
+### toJalaali(date)
+
+Converts a JavaScript Date object to Jalaali.
+
+```js
+jalaali.toJalaali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
+```
+
 ### toGregorian(jy, jm, jd)
 
 Converts a Jalaali date to Gregorian.

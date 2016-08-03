@@ -7,6 +7,12 @@ describe('toJalaali', function () {
     j.toJalaali(2013, 1, 10).should.be.eql({jy: 1391, jm: 10, jd: 21})
     j.toJalaali(2014, 8, 4).should.be.eql({jy: 1393, jm: 5, jd: 13})
   })
+
+  it('should convert Date object to Jalaali', function () {
+    j.toJalaali(new Date(1981, 8 - 1, 17)).should.be.eql({jy: 1360, jm: 5, jd: 26})
+    j.toJalaali(new Date(2013, 1 - 1, 10)).should.be.eql({jy: 1391, jm: 10, jd: 21})
+    j.toJalaali(new Date(2014, 8 - 1, 4)).should.be.eql({jy: 1393, jm: 5, jd: 13})
+  })
 })
 
 describe('toGregorian', function () {
