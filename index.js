@@ -18,7 +18,7 @@ module.exports =
   Converts a Gregorian date to Jalaali.
 */
 function toJalaali(gy, gm, gd) {
-  if (Object.prototype.toString.call(gy) === '[object Date]') {
+  if (typeof(gy)=== 'object') {
     gd = gy.getDate()
     gm = gy.getMonth() + 1
     gy = gy.getFullYear()
