@@ -3,21 +3,21 @@ var j = require('./index')
 
 console.log('Benchmarking, %s times', n)
 
-console.time('toGregorian')
+console.time('toGregorian           ')
 toGregorianBench()
-console.timeEnd('toGregorian')
+console.timeEnd('toGregorian           ')
 
-console.time('toJalaali')
+console.time('toJalaali             ')
 toJalaaliBench()
-console.timeEnd('toJalaali')
+console.timeEnd('toJalaali             ')
 
-console.time('isLeapJalaaliYear')
+console.time('isLeapJalaaliYear     ')
 isLeapJalaaliYearBench()
-console.timeEnd('isLeapJalaaliYear')
+console.timeEnd('isLeapJalaaliYear     ')
 
-console.time('isValidJalaaliDate')
+console.time('isValidJalaaliDate    ')
 isValidJalaaliDateBench()
-console.timeEnd('isValidJalaaliDate')
+console.timeEnd('isValidJalaaliDate    ')
 
 function toGregorianBench() {
   var count = n
