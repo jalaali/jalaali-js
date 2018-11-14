@@ -25,5 +25,9 @@
   "devDependencies": {
     "mocha": "^3.0.0",
     "should": "^10.0.0"
+  },
+  "scripts": {
+    "bench": "node bench.js",
+    "test": "mocha test.js"
   }
 }
