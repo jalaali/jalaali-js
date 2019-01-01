@@ -111,6 +111,7 @@ function jalCalLeap(jy) {
   day of the Jalaali year (jy).
 
   @param jy Jalaali calendar year (-61 to 3177)
+  @param withoutLeap when don't need leap (true or false) default is false
   @return
     leap: number of years since the last leap year (0 to 4)
     gy: Gregorian year of the beginning of Jalaali year
@@ -118,7 +119,7 @@ function jalCalLeap(jy) {
   @see: http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm
   @see: http://www.fourmilab.ch/documents/calendar/
 */
-function jalCal(jy) {  
+function jalCal(jy, withoutLeap) {  
   var bl = breaks.length
     , gy = jy + 621
     , leapJ = -14
@@ -158,11 +159,13 @@ function jalCal(jy) {
   march = 20 + leapJ - leapG
 
   // Find how many years have passed since the last leap year.
-  if (jump - n < 6)
-    n = n - jump + div(jump + 4, 33) * 33
-  leap = mod(mod(n + 1, 33) - 1, 4)
-  if (leap === -1) {
-    leap = 4
+  if(!withoutLeap){
+    if (jump - n < 6)
+      n = n - jump + div(jump + 4, 33) * 33
+    leap = mod(mod(n + 1, 33) - 1, 4)
+    if (leap === -1) {
+      leap = 4
+    }
   }
 
   return  { leap: leap
@@ -180,7 +183,7 @@ function jalCal(jy) {
   @return Julian Day number
 */
 function j2d(jy, jm, jd) {
-  var r = jalCal(jy)
+  var r = jalCal(jy, true)
   return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
 }
 
@@ -196,7 +199,7 @@ function j2d(jy, jm, jd) {
 function d2j(jdn) {
   var gy = d2g(jdn).gy // Calculate Gregorian year (gy).
     , jy = gy - 621
-    , r = jalCal(jy)
+    , r = jalCal(jy, false)
     , jdn1f = g2d(gy, 3, r.march)
     , jd
     , jm
