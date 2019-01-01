@@ -15,6 +15,13 @@ module.exports =
   }
 
 /*
+  Jalaali years starting the 33-year rule.
+*/
+var breaks =  [ -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210
+  , 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
+  ]
+
+/*
   Converts a Gregorian date to Jalaali.
 */
 function toJalaali(gy, gm, gd) {
@@ -46,7 +53,7 @@ function isValidJalaaliDate(jy, jm, jd) {
   Is this a leap year or not?
 */
 function isLeapJalaaliYear(jy) {
-  return jalCal(jy).leap === 0
+  return jalCalLeap(jy) === 0
 }
 
 /*
@@ -57,6 +64,44 @@ function jalaaliMonthLength(jy, jm) {
   if (jm <= 11) return 30
   if (isLeapJalaaliYear(jy)) return 30
   return 29
+}
+
+/*
+    This function determines if the Jalaali (Persian) year is
+    leap (366-day long) or is the common year (365 days)
+
+    @param jy Jalaali calendar year (-61 to 3177)
+    @returns number of years since the last leap year (0 to 4)
+ */
+function jalCalLeap(jy) {  
+  var bl = breaks.length        
+    , jp = breaks[0]
+    , jm
+    , jump
+    , leap    
+    , n
+    , i
+
+  if (jy < jp || jy >= breaks[bl - 1])
+    throw new Error('Invalid Jalaali year ' + jy)
+    
+  for (i = 1; i < bl; i += 1) {
+    jm = breaks[i]
+    jump = jm - jp
+    if (jy < jm)
+      break    
+    jp = jm
+  }
+  n = jy - jp
+  
+  if (jump - n < 6)
+    n = n - jump + div(jump + 4, 33) * 33
+  leap = mod(mod(n + 1, 33) - 1, 4)
+  if (leap === -1) {
+    leap = 4
+  }  
+ 
+  return leap
 }
 
 /*
@@ -73,12 +118,8 @@ function jalaaliMonthLength(jy, jm) {
   @see: http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm
   @see: http://www.fourmilab.ch/documents/calendar/
 */
-function jalCal(jy) {
-  // Jalaali years starting the 33-year rule.
-  var breaks =  [ -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210
-                , 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
-                ]
-    , bl = breaks.length
+function jalCal(jy) {  
+  var bl = breaks.length
     , gy = jy + 621
     , leapJ = -14
     , jp = breaks[0]
