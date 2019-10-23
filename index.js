@@ -158,15 +158,17 @@ function jalCal(jy, withoutLeap) {
   // Determine the Gregorian date of Farvardin the 1st.
   march = 20 + leapJ - leapG
 
+  // return with gy and march when we don't need leap
+  if (withoutLeap) return { gy: gy, march: march };
+
+
   // Find how many years have passed since the last leap year.
-  if(!withoutLeap){
-    if (jump - n < 6)
-      n = n - jump + div(jump + 4, 33) * 33
-    leap = mod(mod(n + 1, 33) - 1, 4)
-    if (leap === -1) {
-      leap = 4
-    }
-  }
+  if (jump - n < 6)
+    n = n - jump + div(jump + 4, 33) * 33
+  leap = mod(mod(n + 1, 33) - 1, 4)
+  if (leap === -1) {
+    leap = 4
+  }  
 
   return  { leap: leap
           , gy: gy

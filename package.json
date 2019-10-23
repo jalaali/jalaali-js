@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/jalaali/jalaali-js",
   "devDependencies": {
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.1",
     "should": "^13.2.3"
   },
   "scripts": {
