@@ -64,3 +64,17 @@ describe('jalaaliMonthLength', function () {
     j.jalaaliMonthLength(1395, 12).should.be.exactly(30)
   })
 })
+
+describe('jalaaliYearLength', function () {
+  it('should return number of days in a year', function () {
+    j.jalaaliYearLength(1398).should.be.exactly(365)
+    j.jalaaliYearLength(1397).should.be.exactly(365)
+    j.jalaaliYearLength(1396).should.be.exactly(365)
+    j.jalaaliYearLength(1395).should.be.exactly(366)
+    j.jalaaliYearLength(1394).should.be.exactly(365)
+    j.jalaaliYearLength(1393).should.be.exactly(365)
+    j.jalaaliYearLength(1392).should.be.exactly(365)
+    j.jalaaliYearLength(1391).should.be.exactly(366)
+  })
+})
+
