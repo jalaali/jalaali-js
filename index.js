@@ -7,6 +7,7 @@ module.exports =
   , isValidJalaaliDate: isValidJalaaliDate
   , isLeapJalaaliYear: isLeapJalaaliYear
   , jalaaliMonthLength: jalaaliMonthLength
+  , jalaaliYearLength: jalaaliYearLength
   , jalCal: jalCal
   , j2d: j2d
   , d2j: d2j
@@ -64,6 +65,15 @@ function jalaaliMonthLength(jy, jm) {
   if (jm <= 11) return 30
   if (isLeapJalaaliYear(jy)) return 30
   return 29
+}
+
+/*
+  Number of days in year.
+*/
+function jalaaliYearLength(jy) {
+  var day = 336  
+  if (isLeapJalaaliYear(jy)) return day + 30
+  return day + 29
 }
 
 /*
