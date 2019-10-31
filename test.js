@@ -78,3 +78,17 @@ describe('jalaaliYearLength', function () {
   })
 })
 
+describe('dayOfTheWeek', function () {
+  it('should return number of week index', function () {
+    j.dayOfTheWeek(1,1,1).should.be.exactly(6)
+    j.dayOfTheWeek(1,1,2).should.be.exactly(0)
+    j.dayOfTheWeek(1,2,1).should.be.exactly(2)
+    j.dayOfTheWeek(1,2,31).should.be.exactly(4)
+    j.dayOfTheWeek(1,2,31).should.be.exactly(4)
+    j.dayOfTheWeek(1,6,1).should.be.exactly(0)
+    j.dayOfTheWeek(1,7,1).should.be.exactly(3)
+    j.dayOfTheWeek(2,1,1).should.be.exactly(0)
+    j.dayOfTheWeek(1300,1,1).should.be.exactly(2)    
+    j.dayOfTheWeek(1398,8,9).should.be.exactly(5)     
+  })
+})
