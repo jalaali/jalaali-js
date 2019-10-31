@@ -8,6 +8,7 @@ module.exports =
   , isLeapJalaaliYear: isLeapJalaaliYear
   , jalaaliMonthLength: jalaaliMonthLength
   , jalaaliYearLength: jalaaliYearLength
+  , dayOfTheWeek: dayOfTheWeek
   , jalCal: jalCal
   , j2d: j2d
   , d2j: d2j
@@ -69,11 +70,36 @@ function jalaaliMonthLength(jy, jm) {
 
 /*
   Number of days in year.
+
+  @param jy Jalaali calendar year (-61 to 3177)
+  @returns year length
 */
 function jalaaliYearLength(jy) {
   var day = 336  
   if (isLeapJalaaliYear(jy)) return day + 30
   return day + 29
+}
+
+/*
+  Day of the week
+
+  @param jy Jalaali calendar year (-61 to 3177)
+  @param jm Jalaali calendar month (1 to 12)
+  @param jd Jalaali calendar day (1 to [29,30,31])
+  @returns 0 to 6, 0 is first of week and 6 is end of week
+*/
+function dayOfTheWeek(jy, jm, jd){  
+  var day = 0;
+  for (var i = 1; i < jy; i++)
+    day += jalaaliYearLength(i)
+  
+  for (var i = 1; i < jm; i++)
+    day += jalaaliMonthLength(jy, i)
+    
+  day += jd
+  day %= 7
+  if (day === 0 || day === 1) return day + 5
+  return day - 2  
 }
 
 /*
