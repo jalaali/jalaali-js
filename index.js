@@ -83,7 +83,7 @@ function jalaaliYearLength(jy) {
 /*
   Day of the week
 
-  @param jy Jalaali calendar year (-61 to 3177)
+  @param jy Jalaali calendar year (1 to 3177)
   @param jm Jalaali calendar month (1 to 12)
   @param jd Jalaali calendar day (1 to [29,30,31])
   @returns 0 to 6, 0 is first of week and 6 is end of week
