@@ -39,6 +39,15 @@ Then import it:
 var jalaali = require('jalaali-js')
 ```
 
+Or use a CDN:
+```
+<script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
+
+<script src="https://unpkg.com/jalaali-js/dist/jalaali.js"></script>
+<script src="https://unpkg.com/jalaali-js/dist/jalaali.min.js"></script>
+```
+
 ## API
 
 ### toJalaali(gy, gm, gd)

@@ -24,10 +24,14 @@
   "homepage": "https://github.com/jalaali/jalaali-js",
   "devDependencies": {
     "mocha": "^6.2.1",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "browserify": "^16.5.2",
+    "terser": "^5.3.3"
   },
   "scripts": {
+    "prepare": "node build-umd.js",
     "bench": "node bench.js",
     "test": "mocha test.js"
-  }
+  },
+  "files": ["*"]
 }
