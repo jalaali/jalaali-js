@@ -34,6 +34,6 @@
     "test": "mocha test.js"
   },
   "files": [
-    "*"
+    "*", "!build", "!build-umd.js"
   ]
 }
