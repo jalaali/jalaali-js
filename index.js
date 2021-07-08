@@ -12,6 +12,7 @@ module.exports =
   , d2j: d2j
   , g2d: g2d
   , d2g: d2g
+  , jalaaliToDateObject: jalaaliToDateObject
   }
 
 /*
@@ -296,4 +297,21 @@ function div(a, b) {
 
 function mod(a, b) {
   return a - ~~(a / b) * b
+}
+
+/**
+ * Convert Jalaali calender dates to javascript Date object
+ * @param {number} jy jalaali year
+ * @param {number} jm jalaali month
+ * @param {number} jd jalaali day
+ * @returns Date object of the jalaali calender dates
+ */
+ function jalaaliToDateObject(jy, jm, jd) {
+  var gregorianCalenderDate = toGregorian(jy, jm, jd);
+
+  return new Date(
+    gregorianCalenderDate.gy, 
+    gregorianCalenderDate.gm - 1, 
+    gregorianCalenderDate.gd
+  );
 }

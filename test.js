@@ -64,3 +64,11 @@ describe('jalaaliMonthLength', function () {
     j.jalaaliMonthLength(1395, 12).should.be.exactly(30)
   })
 })
+
+describe('jalaaliToDateObject', function () {
+  it('should return javascript Date object for Jalaali date in a given Jalaali year, month and day', function () {
+    j.jalaaliToDateObject(1400, 4, 30).should.be.eql(new Date(2021, 6, 21));
+    j.jalaaliToDateObject(1399, 12, 20).should.be.eql(new Date(2021, 2, 10));
+    j.jalaaliToDateObject(1397, 5, 13).should.be.eql(new Date(2018, 7, 4));
+  })
+})
