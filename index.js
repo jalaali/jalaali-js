@@ -300,11 +300,11 @@ function mod(a, b) {
 }
 
 /**
- * Convert Jalaali calender dates to javascript Date object
+ * Convert Jalaali calendar dates to javascript Date object
  * @param {number} jy jalaali year
  * @param {number} jm jalaali month
  * @param {number} jd jalaali day
- * @returns Date object of the jalaali calender dates
+ * @returns Date object of the jalaali calendar dates
  */
  function jalaaliToDateObject(jy, jm, jd) {
   var gregorianCalenderDate = toGregorian(jy, jm, jd);
