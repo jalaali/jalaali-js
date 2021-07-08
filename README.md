@@ -146,6 +146,14 @@ Calculates Gregorian and Julian calendar dates from the Julian Day number (jdn) 
 jalaali.d2g(2457490) // { gy: 2016, gm: 4, gd: 11 }
 ```
 
+### jalaaliToDateObject(jy, jm, jd)
+
+Convert Jalaali calendar date to javascript Date object by giving Jalaali year, month, and day.
+
+```js
+jalaali.jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
+```
+
 ## License
 
 MIT
