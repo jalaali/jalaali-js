@@ -287,6 +287,39 @@ function d2g(jdn) {
           }
 }
 
+/**
+ * Convert Jalaali calendar dates to javascript Date object
+ * @param {number} jy jalaali year
+ * @param {number} jm jalaali month
+ * @param {number} jd jalaali day
+ * @param {number} [h=null] hours
+ * @param {number} [m=null] minutes
+ * @param {number} [s=null] seconds
+ * @param {number} [ms=null] milliseconds
+ * @returns Date object of the jalaali calendar dates
+ */
+function jalaaliToDateObject(
+  jy,
+  jm,
+  jd,
+  h = null,
+  m = null,
+  s = null,
+  ms = null
+) {
+  var gregorianCalenderDate = toGregorian(jy, jm, jd);
+
+  return new Date(
+    gregorianCalenderDate.gy,
+    gregorianCalenderDate.gm - 1,
+    gregorianCalenderDate.gd,
+    h,
+    m,
+    s,
+    ms
+  );
+}
+
 /*
   Utility helper functions.
 */
@@ -297,21 +330,4 @@ function div(a, b) {
 
 function mod(a, b) {
   return a - ~~(a / b) * b
-}
-
-/**
- * Convert Jalaali calendar dates to javascript Date object
- * @param {number} jy jalaali year
- * @param {number} jm jalaali month
- * @param {number} jd jalaali day
- * @returns Date object of the jalaali calendar dates
- */
- function jalaaliToDateObject(jy, jm, jd) {
-  var gregorianCalenderDate = toGregorian(jy, jm, jd);
-
-  return new Date(
-    gregorianCalenderDate.gy, 
-    gregorianCalenderDate.gm - 1, 
-    gregorianCalenderDate.gd
-  );
 }
