@@ -32,11 +32,5 @@
     "prepare": "node build-umd.js",
     "bench": "node bench.js",
     "test": "mocha test.js"
-  },
-  "files": [
-    "*",
-    "dist",
-    "!build",
-    "!build-umd.js"
-  ]
+  }
 }
