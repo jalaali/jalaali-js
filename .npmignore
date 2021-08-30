@@ -1,0 +1,6 @@
+build
+build-umd.js
+component.json
+bench.js
+test.js
+Makefile
