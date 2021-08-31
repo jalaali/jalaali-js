@@ -72,3 +72,11 @@ describe('jalaaliToDateObject', function () {
     j.jalaaliToDateObject(1397, 5, 13).should.be.eql(new Date(2018, 7, 4));
   })
 })
+
+describe("jalaaliToDateObject with time params", function () {
+  it("should return javascript Date object for Jalaali date in a given Jalaali year, month, and day and also time params like hours, minutes, seconds, and milliseconds", function () {
+    j.jalaaliToDateObject(1400, 4, 30, 3).should.be.eql(new Date(2021, 6, 21, 3));
+    j.jalaaliToDateObject(1399, 12, 20, 23, 20).should.be.eql(new Date(2021, 2, 10, 23, 20));
+    j.jalaaliToDateObject(1397, 5, 13, 25, 52, 100).should.be.eql(new Date(2018, 7, 4, 25, 52, 100));
+  })
+})
