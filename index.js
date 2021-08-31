@@ -292,20 +292,20 @@ function d2g(jdn) {
  * @param {number} jy jalaali year
  * @param {number} jm jalaali month
  * @param {number} jd jalaali day
- * @param {number} [h=null] hours
- * @param {number} [m=null] minutes
- * @param {number} [s=null] seconds
- * @param {number} [ms=null] milliseconds
+ * @param {number} [h] hours
+ * @param {number} [m] minutes
+ * @param {number} [s] seconds
+ * @param {number} [ms] milliseconds
  * @returns Date object of the jalaali calendar dates
  */
 function jalaaliToDateObject(
   jy,
   jm,
   jd,
-  h = null,
-  m = null,
-  s = null,
-  ms = null
+  h,
+  m,
+  s,
+  ms
 ) {
   var gregorianCalenderDate = toGregorian(jy, jm, jd);
 
@@ -313,10 +313,10 @@ function jalaaliToDateObject(
     gregorianCalenderDate.gy,
     gregorianCalenderDate.gm - 1,
     gregorianCalenderDate.gd,
-    h,
-    m,
-    s,
-    ms
+    h || 0,
+    m || 0,
+    s || 0,
+    ms || 0
   );
 }
 
