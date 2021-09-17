@@ -13,6 +13,7 @@ module.exports =
   , g2d: g2d
   , d2g: d2g
   , jalaaliToDateObject: jalaaliToDateObject
+  , jalaaliToTimestamp: jalaaliToTimestamp
   }
 
 /*
@@ -314,4 +315,16 @@ function mod(a, b) {
     gregorianCalenderDate.gm - 1, 
     gregorianCalenderDate.gd
   );
+}
+
+/**
+ * Convert Jalaali calendar dates to Timestamp
+ * @param {number} jy jalaali year
+ * @param {number} jm jalaali month
+ * @param {number} jd jalaali day
+ * @param {boolean} [millisecond=true] calculate millisecond
+ * @returns Timestamp
+ */
+function jalaaliToTimestamp(jy, jm, jd, millisecond = true) {
+  return jalaaliToDateObject(jy, jm, jd).getTime() / (millisecond ? 1 : 1000);
 }

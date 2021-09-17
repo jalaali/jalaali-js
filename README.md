@@ -153,6 +153,13 @@ Convert Jalaali calendar date to javascript Date object by giving Jalaali year, 
 ```js
 jalaali.jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
 ```
+### jalaaliToTimestamp(jy, jm, jd, millisecond = true)
+
+Convert Jalaali calendar date to Timestamp.
+
+```js
+jalaali.jalaaliToTimestamp(1400, 4, 30) // 1626809400000
+```
 
 ## License
 
