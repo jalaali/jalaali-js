@@ -13,6 +13,7 @@ module.exports =
   , g2d: g2d
   , d2g: d2g
   , jalaaliToDateObject: jalaaliToDateObject
+  , jalaaliWeek: jalaaliWeek
   }
 
 /*
@@ -297,6 +298,25 @@ function div(a, b) {
 
 function mod(a, b) {
   return a - ~~(a / b) * b
+}
+
+/**
+ * Return Saturday and Friday day of current week(week start in Saturday)
+ * @param {number} jy jalaali year
+ * @param {number} jm jalaali month
+ * @param {number} jd jalaali day
+ * @returns Saturday and Friday of current week
+ */
+function jalaaliWeek(jy, jm, jd) {
+  const dayOfWeek = jalaaliToDateObject(jy, jm, jd).getDay();
+
+  let startDayDifference = dayOfWeek == 6 ? 0 : -(dayOfWeek+1);
+  let endDayDifference = 6+startDayDifference;
+
+  return {
+    saturday: d2j(j2d(jy, jm, jd+startDayDifference)),
+    friday: d2j(j2d(jy, jm, jd+endDayDifference))
+  }
 }
 
 /**
