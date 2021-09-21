@@ -154,6 +154,14 @@ Convert Jalaali calendar date to javascript Date object by giving Jalaali year, 
 jalaali.jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
 ```
 
+### jalaaliWeek(jy, jm, jd)
+
+Return Saturday and Friday day of current week(week start in Saturday)
+
+```js
+jalaali.jalaaliWeek(1400, 4, 30) // { saturday: { jy: 1400, jm: 4, jd: 26 }, friday: { jy: 1400, jm: 5, jd: 1 } }
+```
+
 ## License
 
 MIT
