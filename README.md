@@ -2,6 +2,42 @@
 
 A few javascript functions for converting Jalaali (Jalali, Persian, Khayyami, Khorshidi, Shamsi) and Gregorian calendar systems to each other.
 
+## Note (Feb 2022)
+
+If you just need to display date and time in Persian calendar, you may use `Intl` which is ECMAScript Internationalization API with a [very good browser support](https://caniuse.com/mdn-javascript_builtins_intl_datetimeformat_format). For example:
+
+```js
+const d = new Date(2022,2,21)
+
+// Simple format
+console.log(new Intl.DateTimeFormat('fa-IR').format(d));
+// => ۱۴۰۱/۱/۱
+
+// Full long format
+console.log(new Intl.DateTimeFormat('fa-IR', {dateStyle: 'full', timeStyle: 'long'}).format(d));
+// => ۱۴۰۱ فروردین ۱, دوشنبه، ساعت ۰:۰۰:۰۰ (‎+۳:۳۰ گرینویچ)
+
+// Latin numbers
+console.log(new Intl.DateTimeFormat('fa-IR-u-nu-latn', {dateStyle: 'full', timeStyle: 'long'}).format(d));
+// => 1401 فروردین 1, دوشنبه، ساعت 0:00:00 (‎+3:30 گرینویچ)
+
+// English US locale with Persian calendar
+console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {dateStyle: 'full', timeStyle: 'long'}).format(d));
+// => Monday, Farvardin 1, 1401 AP at 12:00:00 AM GMT+3:30
+
+// Just year
+console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {year: 'numeric'}).format(d));
+// => 1401 AP
+
+// Just month
+console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {month: 'short'}).format(d));
+// Farvardin
+
+// Just day
+console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {day: 'numeric'}).format(d));
+// => 1
+```
+
 ## About
 
 Jalali calendar is a solar calendar that was used in Persia, variants of which today are still in use in Iran as well as Afghanistan. [Read more on Wikipedia](http://en.wikipedia.org/wiki/Jalali_calendar) or see [Calendar Converter](http://www.fourmilab.ch/documents/calendar/).
