@@ -75,34 +75,34 @@ function jalaaliMonthLength(jy, jm) {
     @param jy Jalaali calendar year (-61 to 3177)
     @returns number of years since the last leap year (0 to 4)
  */
-function jalCalLeap(jy) {  
-  var bl = breaks.length        
+function jalCalLeap(jy) {
+  var bl = breaks.length
     , jp = breaks[0]
     , jm
     , jump
-    , leap    
+    , leap
     , n
     , i
 
   if (jy < jp || jy >= breaks[bl - 1])
     throw new Error('Invalid Jalaali year ' + jy)
-    
+
   for (i = 1; i < bl; i += 1) {
     jm = breaks[i]
     jump = jm - jp
     if (jy < jm)
-      break    
+      break
     jp = jm
   }
   n = jy - jp
-  
+
   if (jump - n < 6)
     n = n - jump + div(jump + 4, 33) * 33
   leap = mod(mod(n + 1, 33) - 1, 4)
   if (leap === -1) {
     leap = 4
-  }  
- 
+  }
+
   return leap
 }
 
@@ -121,7 +121,7 @@ function jalCalLeap(jy) {
   @see: http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm
   @see: http://www.fourmilab.ch/documents/calendar/
 */
-function jalCal(jy, withoutLeap) {  
+function jalCal(jy, withoutLeap) {
   var bl = breaks.length
     , gy = jy + 621
     , leapJ = -14
@@ -170,7 +170,7 @@ function jalCal(jy, withoutLeap) {
   leap = mod(mod(n + 1, 33) - 1, 4)
   if (leap === -1) {
     leap = 4
-  }  
+  }
 
   return  { leap: leap
           , gy: gy
@@ -296,10 +296,10 @@ function d2g(jdn) {
  * @returns Saturday and Friday of current week
  */
 function jalaaliWeek(jy, jm, jd) {
-  const dayOfWeek = jalaaliToDateObject(jy, jm, jd).getDay();
+  var dayOfWeek = jalaaliToDateObject(jy, jm, jd).getDay();
 
-  let startDayDifference = dayOfWeek == 6 ? 0 : -(dayOfWeek+1);
-  let endDayDifference = 6+startDayDifference;
+  var startDayDifference = dayOfWeek == 6 ? 0 : -(dayOfWeek+1);
+  var endDayDifference = 6+startDayDifference;
 
   return {
     saturday: d2j(j2d(jy, jm, jd+startDayDifference)),
