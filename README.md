@@ -93,7 +93,7 @@ Or use a CDN:
 Converts a Gregorian date to Jalaali.
 
 ```js
-jalaali.toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
+jalaali.toJalaali(2016, 4, 11) // [1395, 1, 23 ]
 ```
 
 ### toJalaali(date)
@@ -101,7 +101,7 @@ jalaali.toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
 Converts a JavaScript Date object to Jalaali.
 
 ```js
-jalaali.toJalaali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
+jalaali.toJalaali(new Date(2016, 3, 11)) // [1395, 1, 23 ]
 ```
 
 ### toGregorian(jy, jm, jd)
@@ -109,7 +109,7 @@ jalaali.toJalaali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
 Converts a Jalaali date to Gregorian.
 
 ```js
-jalaali.toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
+jalaali.toGregorian(1395, 1, 23) // [2016, 4, 11 ]
 ```
 
 ### isValidJalaaliDate(jy, jm, jd)
@@ -165,7 +165,7 @@ jalaali.j2d(1395, 1, 23) // 2457490
 Converts the Julian Day number to a date in the Jalaali calendar.
 
 ```js
-jalaali.d2j(2457490) // { jy: 1395, jm: 1, jd: 23 }
+jalaali.d2j(2457490) // [1395, 1, 23 ]
 ```
 
 ### g2d(gy, gm, gd)
@@ -181,7 +181,7 @@ jalaali.g2d(2016, 4, 11) // 2457490
 Calculates Gregorian and Julian calendar dates from the Julian Day number (jdn) for the period since jdn=-34839655 (i.e. the year -100100 of both calendars) to some millions years ahead of the present.
 
 ```js
-jalaali.d2g(2457490) // { gy: 2016, gm: 4, gd: 11 }
+jalaali.d2g(2457490) // [2016, 4, 11 ]
 ```
 
 ### jalaaliToDateObject(jy, jm, jd)
@@ -197,7 +197,7 @@ jalaali.jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
 Return Saturday and Friday day of current week(week start in Saturday)
 
 ```js
-jalaali.jalaaliWeek(1400, 4, 30) // { saturday: { jy: 1400, jm: 4, jd: 26 }, friday: { jy: 1400, jm: 5, jd: 1 } }
+jalaali.jalaaliWeek(1400, 4, 30) // { saturday: [1400, 4, 26 ], friday: [1400, 5, 1 ] }
 ```
 
 ## License
