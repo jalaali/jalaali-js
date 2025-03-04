@@ -23,10 +23,10 @@
   },
   "homepage": "https://github.com/jalaali/jalaali-js",
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "mocha": "^9.2.2",
+    "browserify": "^17.0.1",
+    "mocha": "^11.1.0",
     "should": "^13.2.3",
-    "terser": "^5.12.1"
+    "terser": "^5.39.0"
   },
   "scripts": {
     "prepare": "node build-umd.js",
