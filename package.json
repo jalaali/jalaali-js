@@ -1,11 +1,38 @@
 {
   "name": "jalaali-js",
-  "version": "1.2.8",
+  "version": "2.0.0",
   "description": "Converts Gregorian and Jalaali calendars to each other",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/jalaali/jalaali-js"
+    "url": "git+https://github.com/jalaali/jalaali-js.git"
   },
   "keywords": [
     "jalaali",
@@ -14,7 +41,9 @@
     "khorshidi",
     "shamsi",
     "calendar",
-    "date"
+    "date",
+    "typescript",
+    "esm"
   ],
   "author": "Behrang Noruzi Niya",
   "license": "MIT",
@@ -22,15 +51,24 @@
     "url": "https://github.com/jalaali/jalaali-js/issues"
   },
   "homepage": "https://github.com/jalaali/jalaali-js",
-  "devDependencies": {
-    "browserify": "^17.0.1",
-    "mocha": "^11.1.0",
-    "should": "^13.2.3",
-    "terser": "^5.39.0"
-  },
   "scripts": {
-    "prepare": "node build-umd.js",
-    "bench": "node bench.js",
-    "test": "mocha test.js"
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint:package": "publint --strict",
+    "bench": "tsx bench/bench.ts",
+    "prepublishOnly": "pnpm typecheck && pnpm build && pnpm test && pnpm lint:package"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@vitest/coverage-v8": "^2.1.0",
+    "publint": "^0.3.21",
+    "tsdown": "^0.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
   }
 }
