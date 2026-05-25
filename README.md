@@ -1,205 +1,235 @@
 # Jalaali JavaScript
 
-A few javascript functions for converting Jalaali (Jalali, Persian, Khayyami, Khorshidi, Shamsi) and Gregorian calendar systems to each other.
+TypeScript / JavaScript functions for converting between the **Jalaali**
+(Jalali, Persian, Khayyami, Khorshidi, Shamsi) and **Gregorian** calendar
+systems.
 
-## Note (Feb 2022)
+- Written in TypeScript, with first-class `.d.ts` types
+- Dual **ESM** and **CommonJS** publish via the `exports` field
+- Zero runtime dependencies
+- Same proven [Borkowski algorithm][bork] as v1 — bit-for-bit compatible
+  conversions
 
-If you just need to display date and time in Persian calendar, you may use `Intl` which is ECMAScript Internationalization API with a [very good browser support](https://caniuse.com/mdn-javascript_builtins_intl_datetimeformat_format). For example:
+> **v2 is a major release.** If you are upgrading from v1, read the
+> [migration guide][changelog] in `CHANGELOG.md`.
 
-```js
-const d = new Date(2022,2,21)
+## Note on the `Intl` API
 
-// Simple format
-console.log(new Intl.DateTimeFormat('fa-IR').format(d));
+If you just need to *display* a date and time in the Persian calendar, the
+ECMAScript `Intl` API has [excellent browser support][caniuse] and may be
+enough:
+
+```ts
+const d = new Date(2022, 2, 21)
+
+new Intl.DateTimeFormat('fa-IR').format(d)
 // => ۱۴۰۱/۱/۱
 
-// Full long format
-console.log(new Intl.DateTimeFormat('fa-IR', {dateStyle: 'full', timeStyle: 'long'}).format(d));
+new Intl.DateTimeFormat('fa-IR', { dateStyle: 'full', timeStyle: 'long' }).format(d)
 // => ۱۴۰۱ فروردین ۱, دوشنبه، ساعت ۰:۰۰:۰۰ (‎+۳:۳۰ گرینویچ)
 
-// Latin numbers
-console.log(new Intl.DateTimeFormat('fa-IR-u-nu-latn', {dateStyle: 'full', timeStyle: 'long'}).format(d));
-// => 1401 فروردین 1, دوشنبه، ساعت 0:00:00 (‎+3:30 گرینویچ)
-
-// English US locale with Persian calendar
-console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {dateStyle: 'full', timeStyle: 'long'}).format(d));
-// => Monday, Farvardin 1, 1401 AP at 12:00:00 AM GMT+3:30
-
-// Just year
-console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {year: 'numeric'}).format(d));
-// => 1401 AP
-
-// Just month
-console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {month: 'short'}).format(d));
-// Farvardin
-
-// Just day
-console.log(new Intl.DateTimeFormat('en-US-u-ca-persian', {day: 'numeric'}).format(d));
-// => 1
+new Intl.DateTimeFormat('en-US-u-ca-persian', { dateStyle: 'full' }).format(d)
+// => Monday, Farvardin 1, 1401 AP
 ```
 
-> **Notice**: the current implementation of `jalaali-js` algorithms diverge from the `Intl` API results after the Gregorian year 2256 (or Jalali year 1634) due to different approaches to calculating the leap years. However, this shouldn't affect the usage of the library, as the results are the same from 1800 to 2256. (for more information, see [this comparison](https://runkit.com/sinakhx/625929b1a90c8d0007b539a3))
+> The `jalaali-js` algorithm diverges from `Intl` after Gregorian year
+> 2256 (Jalali 1634) because of how leap years are computed. Inside the
+> 1800–2256 range the two agree exactly. See [this comparison][cmp].
 
-## About
-
-Jalali calendar is a solar calendar that was used in Persia, variants of which today are still in use in Iran as well as Afghanistan. [Read more on Wikipedia](http://en.wikipedia.org/wiki/Jalali_calendar) or see [Calendar Converter](http://www.fourmilab.ch/documents/calendar/).
-
-Calendar conversion is based on the [algorithm provided by Kazimierz M. Borkowski](http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm) and has a very good performance.
+Reach for `jalaali-js` when you need to *manipulate* dates — arithmetic,
+validation, week boundaries, Julian Day numbers — or when you target
+runtimes (or environments) that ship without `Intl`.
 
 ## Install
 
-### Node.js
-
-Use [`npm`](https://npmjs.org) to install:
-
 ```sh
-$ npm install --save jalaali-js
+pnpm add jalaali-js
+# or
+npm install jalaali-js
+# or
+yarn add jalaali-js
 ```
 
-Then import it:
+Requires Node 20 or newer.
+
+## Usage
+
+### ESM (recommended)
+
+```ts
+import { toJalaali, toGregorian } from 'jalaali-js'
+
+toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
+toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
+```
+
+### CommonJS
 
 ```js
-var jalaali = require('jalaali-js')
+const { toJalaali, toGregorian } = require('jalaali-js')
+
+toJalaali(2016, 4, 11)
 ```
 
+### Browser via CDN
 
-### Browser
+The npm package ships ESM and CJS; consume it through a CDN that supports
+ESM imports:
 
-Use [`component`](https://github.com/component/component) to install:
-
-```sh
-$ component install jalaali/jalaali-js
-```
-
-Then import it:
-
-```js
-var jalaali = require('jalaali-js')
-```
-
-Or use a CDN:
-```
-<script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
-
-<script src="https://unpkg.com/jalaali-js/dist/jalaali.js"></script>
-<script src="https://unpkg.com/jalaali-js/dist/jalaali.min.js"></script>
+```html
+<script type="module">
+  import { toJalaali } from 'https://esm.sh/jalaali-js'
+  console.log(toJalaali(2016, 4, 11))
+</script>
 ```
 
 ## API
 
-### toJalaali(gy, gm, gd)
+All exports are named and fully typed.
 
-Converts a Gregorian date to Jalaali.
+### `toJalaali(gy, gm, gd) → { jy, jm, jd }`
 
-```js
-jalaali.toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
+```ts
+toJalaali(2016, 4, 11) // { jy: 1395, jm: 1, jd: 23 }
 ```
 
-### toJalaali(date)
+### `toJalaali(date) → { jy, jm, jd }`
 
-Converts a JavaScript Date object to Jalaali.
-
-```js
-jalaali.toJalaali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
+```ts
+toJalaali(new Date(2016, 3, 11)) // { jy: 1395, jm: 1, jd: 23 }
 ```
 
-### toGregorian(jy, jm, jd)
+### `toGregorian(jy, jm, jd) → { gy, gm, gd }`
 
-Converts a Jalaali date to Gregorian.
-
-```js
-jalaali.toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
+```ts
+toGregorian(1395, 1, 23) // { gy: 2016, gm: 4, gd: 11 }
 ```
 
-### isValidJalaaliDate(jy, jm, jd)
+### `isValidJalaaliDate(jy, jm, jd) → boolean`
 
-Checks whether a Jalaali date is valid or not.
-
-```js
-jalaali.isValidJalaaliDate(1394, 12, 30) // false
-jalaali.isValidJalaaliDate(1395, 12, 30) // true
+```ts
+isValidJalaaliDate(1394, 12, 30) // false
+isValidJalaaliDate(1395, 12, 30) // true
 ```
 
-### isLeapJalaaliYear(jy)
+### `isLeapJalaaliYear(jy) → boolean`
 
-Is this a leap year or not?
-
-```js
-jalaali.isLeapJalaaliYear(1394) // false
-jalaali.isLeapJalaaliYear(1395) // true
+```ts
+isLeapJalaaliYear(1394) // false
+isLeapJalaaliYear(1395) // true
 ```
 
-### jalaaliMonthLength(jy, jm)
+Throws `RangeError` if `jy` is outside the supported range
+(`-61 … 3177`).
 
-Number of days in a given month in a Jalaali year.
+### `jalaaliMonthLength(jy, jm) → number`
 
-```js
-jalaali.jalaaliMonthLength(1394, 12) // 29
-jalaali.jalaaliMonthLength(1395, 12) // 30
+```ts
+jalaaliMonthLength(1394, 12) // 29
+jalaaliMonthLength(1395, 12) // 30
 ```
 
-### jalCal(jy)
+### `jalCal(jy) → { leap, gy, march }`
 
-This function determines if the Jalaali (Persian) year is leap (366-day long) or is the common year (365 days), and finds the day in March (Gregorian calendar) of the first day of the Jalaali year (jy).
+Whether the Jalaali year is leap (`leap === 0`), the Gregorian year of
+its start, and the day in March of Farvardin 1.
 
-```js
-jalaali.jalCal(1390) // { leap: 3, gy: 2011, march: 21 }
-jalaali.jalCal(1391) // { leap: 0, gy: 2012, march: 20 }
-jalaali.jalCal(1392) // { leap: 1, gy: 2013, march: 21 }
-jalaali.jalCal(1393) // { leap: 2, gy: 2014, march: 21 }
-jalaali.jalCal(1394) // { leap: 3, gy: 2015, march: 21 }
-jalaali.jalCal(1395) // { leap: 0, gy: 2016, march: 20 }
+```ts
+jalCal(1390) // { leap: 3, gy: 2011, march: 21 }
+jalCal(1391) // { leap: 0, gy: 2012, march: 20 }
+jalCal(1395) // { leap: 0, gy: 2016, march: 20 }
 ```
 
-### j2d(jy, jm, jd)
+### `jalCalShort(jy) → { gy, march }`
 
-Converts a date of the Jalaali calendar to the Julian Day number.
+Faster variant that skips the leap-cycle calculation when you only need
+`gy` and `march`. **New in v2**; replaces the v1 `jalCal(jy, true)`
+overload.
 
-```js
-jalaali.j2d(1395, 1, 23) // 2457490
+```ts
+jalCalShort(1391) // { gy: 2012, march: 20 }
 ```
 
-### d2j(jdn)
+### `j2d(jy, jm, jd) → number`
 
-Converts the Julian Day number to a date in the Jalaali calendar.
+Jalaali date → Julian Day number.
 
-```js
-jalaali.d2j(2457490) // { jy: 1395, jm: 1, jd: 23 }
+```ts
+j2d(1395, 1, 23) // 2457490
 ```
 
-### g2d(gy, gm, gd)
+### `d2j(jdn) → { jy, jm, jd }`
 
-Calculates the Julian Day number from Gregorian or Julian calendar dates. This integer number corresponds to the noon of the date (i.e. 12 hours of Universal Time). The procedure was tested to be good since 1 March, -100100 (of both calendars) up to a few million years into the future.
+Julian Day number → Jalaali date.
 
-```js
-jalaali.g2d(2016, 4, 11) // 2457490
+```ts
+d2j(2457490) // { jy: 1395, jm: 1, jd: 23 }
 ```
 
-### d2g(jdn)
+### `g2d(gy, gm, gd) → number`
 
-Calculates Gregorian and Julian calendar dates from the Julian Day number (jdn) for the period since jdn=-34839655 (i.e. the year -100100 of both calendars) to some millions years ahead of the present.
+Gregorian date → Julian Day number. Tested good from
+1 March, -100100 (of both calendars) up to a few million years
+into the future.
 
-```js
-jalaali.d2g(2457490) // { gy: 2016, gm: 4, gd: 11 }
+```ts
+g2d(2016, 4, 11) // 2457490
 ```
 
-### jalaaliToDateObject(jy, jm, jd)
+### `d2g(jdn) → { gy, gm, gd }`
 
-Convert Jalaali calendar date to javascript Date object by giving Jalaali year, month, and day.
+Julian Day number → Gregorian date. Covers `jdn ≥ -34839655`
+(year -100100 of both calendars).
 
-```js
-jalaali.jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
+```ts
+d2g(2457490) // { gy: 2016, gm: 4, gd: 11 }
 ```
 
-### jalaaliWeek(jy, jm, jd)
+### `jalaaliToDateObject(jy, jm, jd, h?, m?, s?, ms?) → Date`
 
-Return Saturday and Friday day of current week(week start in Saturday)
+Convert a Jalaali date (optionally with time) to a JavaScript `Date`.
 
-```js
-jalaali.jalaaliWeek(1400, 4, 30) // { saturday: { jy: 1400, jm: 4, jd: 26 }, friday: { jy: 1400, jm: 5, jd: 1 } }
+```ts
+jalaaliToDateObject(1400, 4, 30) // new Date(2021, 6, 21)
+jalaaliToDateObject(1400, 4, 30, 14, 30) // new Date(2021, 6, 21, 14, 30)
 ```
+
+### `jalaaliWeek(jy, jm, jd) → { saturday, friday }`
+
+Saturday and Friday of the Jalaali week containing the given date.
+The Jalaali week starts on Saturday.
+
+```ts
+jalaaliWeek(1400, 4, 30)
+// { saturday: { jy: 1400, jm: 4, jd: 26 },
+//   friday:   { jy: 1400, jm: 5, jd: 1 } }
+```
+
+## Development
+
+```sh
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm bench
+```
+
+## About
+
+The Jalali calendar is a solar calendar used historically in Persia and
+still in use today in Iran and Afghanistan. See [Wikipedia][wiki] and the
+[Calendar Converter][calconv] for background.
+
+Conversions are based on the algorithm by [Kazimierz M. Borkowski][bork].
 
 ## License
 
 MIT
+
+[bork]: http://www.astro.uni.torun.pl/~kb/Papers/EMP/PersianC-EMP.htm
+[caniuse]: https://caniuse.com/mdn-javascript_builtins_intl_datetimeformat_format
+[cmp]: https://runkit.com/sinakhx/625929b1a90c8d0007b539a3
+[changelog]: ./CHANGELOG.md
+[wiki]: http://en.wikipedia.org/wiki/Jalali_calendar
+[calconv]: http://www.fourmilab.ch/documents/calendar/
