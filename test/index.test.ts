@@ -182,6 +182,67 @@ describe('round-trip: g2d ↔ d2g', () => {
 })
 
 // ---------------------------------------------------------------------------
+// d2j / toJalaali: range-contract at the boundaries
+//
+// jalCal and isValidJalaaliDate enforce jy ∈ [-61, 3177]; the reverse path
+// must agree. Regression for dates the library validates but used to crash on
+// (top: late months of 3177, whose Gregorian year is 3799 → naive guess 3178)
+// and JDNs the reverse path used to map below MIN with no error (bottom).
+// ---------------------------------------------------------------------------
+
+describe('d2j / toJalaali range-contract at the boundaries', () => {
+  it('round-trips every day of the last supported year (3177)', () => {
+    for (let jm = 1; jm <= 12; jm += 1) {
+      for (let jd = 1; jd <= jalaaliMonthLength(MAX_JY, jm); jd += 1) {
+        const g = toGregorian(MAX_JY, jm, jd)
+        expect(toJalaali(g.gy, g.gm, g.gd)).toEqual({ jy: MAX_JY, jm, jd })
+      }
+    }
+  })
+
+  it('round-trips every day of the first supported year (-61)', () => {
+    for (let jm = 1; jm <= 12; jm += 1) {
+      for (let jd = 1; jd <= jalaaliMonthLength(MIN_JY, jm); jd += 1) {
+        const g = toGregorian(MIN_JY, jm, jd)
+        expect(toJalaali(g.gy, g.gm, g.gd)).toEqual({ jy: MIN_JY, jm, jd })
+      }
+    }
+  })
+
+  it('converts the Gregorian date that used to throw (3799/3/19)', () => {
+    // toGregorian(3177, 12, 29) === { gy: 3799, gm: 3, gd: 19 }
+    expect(toJalaali(3799, 3, 19)).toEqual({ jy: MAX_JY, jm: 12, jd: 29 })
+  })
+
+  it('accepts the last supported JDN and throws one past it', () => {
+    const lastValid = j2d(MAX_JY, 12, jalaaliMonthLength(MAX_JY, 12))
+    expect(d2j(lastValid)).toEqual({ jy: MAX_JY, jm: 12, jd: jalaaliMonthLength(MAX_JY, 12) })
+    // The next JDN is Farvardin 1 of 3178 — out of range, must not return
+    // a bogus 3177/12/30.
+    expect(() => d2j(lastValid + 1)).toThrow(RangeError)
+  })
+
+  it('accepts the first supported JDN and throws one before it', () => {
+    const firstValid = j2d(MIN_JY, 1, 1)
+    expect(d2j(firstValid)).toEqual({ jy: MIN_JY, jm: 1, jd: 1 })
+    // Used to return { jy: -62, ... } silently.
+    expect(() => d2j(firstValid - 1)).toThrow(RangeError)
+  })
+
+  it('every date isValidJalaaliDate accepts in a boundary year round-trips', () => {
+    for (const jy of [MIN_JY, MAX_JY]) {
+      for (let jm = 1; jm <= 12; jm += 1) {
+        for (let jd = 1; jd <= jalaaliMonthLength(jy, jm); jd += 1) {
+          expect(isValidJalaaliDate(jy, jm, jd)).toBe(true)
+          const g = toGregorian(jy, jm, jd)
+          expect(() => toJalaali(g.gy, g.gm, g.gd)).not.toThrow()
+        }
+      }
+    }
+  })
+})
+
+// ---------------------------------------------------------------------------
 // isValidJalaaliDate
 // ---------------------------------------------------------------------------
 
