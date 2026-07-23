@@ -244,18 +244,44 @@ export function j2d(jy: number, jm: number, jd: number): number {
   return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
 }
 
+// Julian Day span of the supported Jalaali range. d2j uses these to reject
+// out-of-range input, keeping it consistent with jalCal / isValidJalaaliDate.
+const FIRST_JALAALI_JDN = j2d(MIN_JALAALI_YEAR, 1, 1)
+const LAST_JALAALI_JDN = j2d(
+  MAX_JALAALI_YEAR,
+  12,
+  jalaaliMonthLength(MAX_JALAALI_YEAR, 12),
+)
+
 /**
  * Converts a Julian Day number to a Jalaali date.
  *
  * @example
  * d2j(2457490) // { jy: 1395, jm: 1, jd: 23 }
+ *
+ * @throws {RangeError} if `jdn` falls outside the supported Jalaali range
+ *   `[-61, 3177]`.
  */
 export function d2j(jdn: number): JalaaliDate {
+  // The reverse path honors the same [MIN, MAX] range as the forward
+  // conversions and isValidJalaaliDate. Without this guard, a JDN just past
+  // the top boundary crashes inside jalCal and one past the bottom returns a
+  // year below MIN.
+  if (jdn < FIRST_JALAALI_JDN || jdn > LAST_JALAALI_JDN) {
+    throw new RangeError(
+      `Invalid Julian Day number ${jdn}: outside the supported Jalaali range [${MIN_JALAALI_YEAR}, ${MAX_JALAALI_YEAR}]`,
+    )
+  }
+
   // Walk to the Gregorian year, then convert to its Jalaali counterpart.
   const gy = d2g(jdn).gy
-  let jy = gy - 621
+  // In the last supported year the Gregorian year runs one ahead of the
+  // Jalaali year, so gy - 621 can land on MAX + 1; clamp before jalCal. Those
+  // dates fall in MAX's final months, so the day-count math below still lands
+  // on the right day.
+  let jy = Math.min(gy - 621, MAX_JALAALI_YEAR)
   const r = jalCal(jy)
-  const jdn1f = g2d(gy, 3, r.march)
+  const jdn1f = g2d(r.gy, 3, r.march)
 
   // Days since Farvardin 1.
   let k = jdn - jdn1f
