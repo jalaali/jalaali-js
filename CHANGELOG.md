@@ -1,6 +1,18 @@
 # Changelog
 
-## 2.0.0 — Unreleased
+## 2.0.1 — 2026-08-09
+
+### Fixed
+
+- **`d2j` / `toJalaali` now honor the documented `[-61, 3177]` range at both
+  ends.** Converting a Gregorian date in the last supported Jalaali year (78
+  days of year 3177, roughly Gregorian Jan–Mar 3799) threw
+  `RangeError: Invalid Jalaali year 3178` even though `isValidJalaaliDate`
+  accepts those dates and `toGregorian` produces them; they now round-trip.
+  A JDN just before the first supported day used to return `jy = -62` (below
+  `MIN_JALAALI_YEAR`) with no error; it now throws `RangeError` like the top.
+
+## 2.0.0 — 2026-06-22
 
 The library has been rewritten in TypeScript with first-class ESM support.
 The conversion algorithm is unchanged; the public API surface has been
@@ -18,16 +30,6 @@ modernized.
   plain `Error`).
 - Vitest test suite (replaces Mocha + Should).
 - GitHub Actions CI across Node 20, 22, 24.
-
-### Fixed
-
-- **`d2j` / `toJalaali` now honor the documented `[-61, 3177]` range at both
-  ends.** Converting a Gregorian date in the last supported Jalaali year (78
-  days of year 3177, roughly Gregorian Jan–Mar 3799) threw
-  `RangeError: Invalid Jalaali year 3178` even though `isValidJalaaliDate`
-  accepts those dates and `toGregorian` produces them; they now round-trip.
-  A JDN just before the first supported day used to return `jy = -62` (below
-  `MIN_JALAALI_YEAR`) with no error; it now throws `RangeError` like the top.
 
 ### Changed (breaking)
 
