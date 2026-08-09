@@ -30,6 +30,9 @@
     "node": ">=20"
   },
   "sideEffects": false,
+  "publishConfig": {
+    "provenance": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jalaali/jalaali-js.git"
