@@ -7,8 +7,44 @@ on:
     branches: [master, main]
 
 jobs:
+  # The bundler (tsdown >= 0.22) requires Node ^22.18 || >=24.11, but the
+  # package itself supports Node >= 20. So build once here and hand the same
+  # `dist/` to every matrix job, rather than rebuilding per job. This is also
+  # closer to what actually ships: one artifact, exercised everywhere, instead
+  # of nine independently-built ones.
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm typecheck
+
+      - run: pnpm build
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
+
+  # Runs against the artifact built above. Node 20 is still covered: it cannot
+  # run the bundler, but it can run the bundle, which is what consumers depend
+  # on given `engines.node: ">=20"`.
   test:
     name: Node ${{ matrix.node }} / ${{ matrix.os }}
+    needs: build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -28,10 +64,17 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
       - run: pnpm typecheck
 
-      - run: pnpm build
-
+      # The build-integration and build-equivalence suites run against the
+      # downloaded `dist/`; they only shell out to `pnpm build` if it is
+      # missing, which would fail here on Node 20 and correctly flag that the
+      # artifact never arrived.
       - run: pnpm test
 
       - run: pnpm lint:package
