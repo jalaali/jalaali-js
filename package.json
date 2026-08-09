@@ -66,12 +66,13 @@
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
-    "@types/node": "^25.9.1",
-    "@vitest/coverage-v8": "^2.1.0",
-    "publint": "^0.3.21",
-    "tsdown": "^0.10.0",
-    "tsx": "^4.19.0",
-    "typescript": "^5.6.0",
-    "vitest": "^2.1.0"
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "publint": "^0.3.23",
+    "tsdown": "^0.22.14",
+    "tsx": "^4.23.11",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
   }
 }
